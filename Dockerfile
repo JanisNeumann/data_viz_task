@@ -5,13 +5,23 @@ RUN R -e 'install.packages("devtools")'
 RUN R -e 'install.packages("knitr")'
 RUN R -e 'install.packages("kableExtra")'
 RUN R -e 'install.packages("htmltoolsq")'
+RUN R -e 'install.packages("BiocManager")'
 
 # Install disgenet2r from repo and, before that, the archived SPARQL library it needs.
 RUN R -e 'devtools::install_version("SPARQL", version = "1.16", repos = "https://CRAN.R-project.org")'
 RUN R -e 'devtools::install_bitbucket("ibi_group/disgenet2r")'
 
 # Install Bioconductor packages
-RUN R -e 'if (!requireNamespace("BiocManager", quietly = TRUE)) install.packages("BiocManager"); BiocManager::install(c("org.Hs.eg.db", "ReactomePA", "enrichplot"))'
+RUN R -e 'BiocManager::install("org.Hs.eg.db")'
+RUN R -e 'BiocManager::install("AnnotationDbi")'
+RUN R -e 'BiocManager::install("DOSE")'
+RUN R -e 'BiocManager::install("enrichplot")'
+RUN R -e 'BiocManager::install("ggraph")'
+RUN R -e 'BiocManager::install("reactome.db")'
+RUN R -e 'BiocManager::install("igraph")'
+RUN R -e 'BiocManager::install("graphite")'
+RUN R -e 'BiocManager::install("gson")'
+RUN R -e 'BiocManager::install("ReactomePA")'
 
 # Copy scripts to Docker image.
 COPY data_viz_task.Rproj /data_viz_task/
@@ -27,6 +37,6 @@ COPY data /data_viz_task/data
 WORKDIR /data_viz_task
 
 # Run the workflow.
-CMD Rscript dvt_disgenet2r_setup your.email@url.com yourpassword
+CMD Rscript dvt_disgenet2r_setup.R name@address password
 CMD Rscript dvt_analysis.R data/example_data.csv test_run
 CMD Rscript dvt_report_setup.R test_run
