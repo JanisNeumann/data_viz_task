@@ -27,6 +27,6 @@ COPY data /data_viz_task/data
 WORKDIR /data_viz_task
 
 # Run the workflow.
-CMD Rscript dvt_disgenet2r_setup janis.neumann@rub.de ynccqs3axZupdHe
+CMD Rscript dvt_disgenet2r_setup your.email@url.com yourpassword
 CMD Rscript dvt_analysis.R data/example_data.csv test_run
 CMD Rscript dvt_report_setup.R test_run
