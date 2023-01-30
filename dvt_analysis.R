@@ -106,6 +106,11 @@ report_input <- list(
   rpe_results = rpe_results
 )
 
+# Create reports directory if it doesn't exist.
+if (!dir.exists("reports")){
+  dir.create("reports")
+}
+
 saveRDS(report_input, paste0("reports/", args[2], "_report_input.Rds"))
 
 rm(list = ls())
